@@ -15,6 +15,8 @@ To get started with SoloVision, follow the instructions below to set up your dev
 3. YOLO Format Conversion: Convert the detected objects into YOLO format, preparing them for fine-tuning.
 4. Fine-tuning: Fine-tune the YOLOv8 model using the generated data to enhance detection performance.
 
+- [Generalized Fine-tuning](#generalized-fine-tuning.md)
+
 ### Reinforcement Learning with Human Feedback
 1. Run Object Detection: Test the YOLOv8 model on a set of unseen images not used for training.
 2. Review via WPF App: Use a WPF application to manually examine and confirm or reject object detections.
