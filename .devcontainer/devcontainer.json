@@ -1,7 +1,10 @@
 {
 	"name": "solovision",
 	"image": "mcr.microsoft.com/devcontainers/python:3.11",
-
+	"runArgs": [
+        "--gpus",
+        "all"
+    ],
 	"customizations": {
 		"vscode": {	
 			"extensions": [

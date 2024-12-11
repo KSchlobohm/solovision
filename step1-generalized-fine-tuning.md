@@ -1,12 +1,14 @@
 # Generalized Fine-tuning
 
-Generalized Fine-tuning is the first step in the SoloVision project, where we prepare the model for reinforcement learning by generating a set of images for training. This process involves the following steps:
+Generalized Fine-tuning is the first step in the SoloVision project, where we will generate a fine-tuned Yolov8 model. This process involves the following steps:
+
 1. Image Generation: Use Autodistill to automatically generate a set of images for model training.
 2. Object Detection: Apply the Grounded SAM (Segment Anything Model) to identify and isolate objects within the images.
 3. YOLO Format Conversion: Convert the detected objects into YOLO format, preparing them for fine-tuning.
 4. Fine-tuning: Fine-tune the YOLOv8 model using the generated data to enhance detection performance.
 
 ## Image Generation
+Before we can fine-tune the YOLOv8 model, we need to generate a set of images for training. We will use Autodistill to automatically generate images from sample videos.
 
 > [!NOTE]
 > The following steps are designed for the VS Code experience
@@ -29,6 +31,33 @@ Generalized Fine-tuning is the first step in the SoloVision project, where we pr
     unzip -q $VIDEO_SOURCE_FILES/milk.zip -d $VIDEO_SOURCE_FILES
     ```
 
-3. Use Autodistill to generate images from the videos
+3. Create a Virtual Environment at the root of the project
 
-    > TODO: Add the command to generate images
+    ```bash
+    python -m venv .venv
+    ```
+
+5. Activate the environment
+
+    ```bash
+    source ./.venv/bin/activate
+    ```
+
+
+5. Install the required packages
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+5. Use Autodistill to generate images from the videos
+
+    ```bash
+    python src/autodistill/video_to_images.py
+    ```
+
+6. Use the Grounded SAM to detect objects in the images
+
+    ```bash
+    python src/autodistill/auto_segment_training_data.py
+    ```
