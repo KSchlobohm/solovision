@@ -29,5 +29,6 @@
 		"ghcr.io/devcontainers/features/sshd:1": {}
 	},
 	// resolves error: dubious ownership of the workspace folder
-	"postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}"
+	"postCreateCommand": "sudo apt-get update && sudo apt-get install -y libgl1-mesa-glx",
+    "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}"
 }
