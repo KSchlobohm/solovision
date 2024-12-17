@@ -163,3 +163,4 @@ cython_debug/
 
 # Ignore all of the data files
 data/
+yolov8n.pt
