@@ -1,10 +1,9 @@
 # step 3 of 3 train the yolov8 model
+# pip install ipython
 
 from autodistill_yolov8 import YOLOv8
 from IPython.display import Image
 import torch
-
-# pip install ipython
 
 device = 'cpu' 
 # hit a runtime mutli-threading error that led me back to using CPU
