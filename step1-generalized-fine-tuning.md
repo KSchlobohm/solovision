@@ -37,7 +37,7 @@ Before we can fine-tune the YOLOv8 model, we need to generate a set of images fo
     python -m venv .venv
     ```
 
-5. Activate the environment
+4. Activate the environment
 
     ```bash
     source ./.venv/bin/activate
@@ -50,14 +50,20 @@ Before we can fine-tune the YOLOv8 model, we need to generate a set of images fo
     pip install -r requirements.txt
     ```
 
-5. Use Autodistill to generate images from the videos
+6. Use Autodistill to generate images from the videos
 
     ```bash
     python src/autodistill/video_to_images.py
     ```
 
-6. Use the Grounded SAM to detect objects in the images
+7. Use the Grounded SAM to detect objects in the images
 
     ```bash
     python src/autodistill/auto_segment_training_data.py
+    ```
+
+8. Use the dataset we just generated to fine-tune the YOLOv8 model
+
+    ```bash
+    python src/autodistill/finetune_yolo.py
     ```
