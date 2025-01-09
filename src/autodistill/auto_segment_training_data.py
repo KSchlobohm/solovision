@@ -31,9 +31,13 @@ ontology = CaptionOntology({
 })
 
 base_model = GroundingDINO(ontology=ontology)
+
 if os.path.exists(YOLO_DATASET_DIR_PATH):
     shutil.rmtree(YOLO_DATASET_DIR_PATH)
 
+# Automatically label images in the input folder using the base model and save the labeled dataset to the output folder.
+# This step is crucial as it converts raw images into a labeled dataset that can be used for training the YOLO model.
+# The base model uses the provided ontology to generate accurate labels, making this process efficient and reducing manual labeling effort.
 dataset = base_model.label(
     input_folder=IMAGE_DIR_PATH,
     extension=".png",
@@ -44,44 +48,12 @@ ANNOTATIONS_DIRECTORY_PATH = f"{YOLO_DATASET_DIR_PATH}/train/labels"
 IMAGES_DIRECTORY_PATH = f"{YOLO_DATASET_DIR_PATH}/train/images"
 DATA_YAML_PATH = f"{YOLO_DATASET_DIR_PATH}/data.yaml"
 
-
+# Convert the labeled YOLO dataset into a DetectionDataset object.
+# This step is crucial for preparing the dataset in a structured format that is compatible with YOLO training.
+# It ensures that the images and their corresponding annotations are correctly organized.
+# By automating the conversion process, it reduces manual effort and potential errors in dataset preparation.
+# Ensures that the dataset adheres to the expected format, which is important for the training process to run smoothly.
 dataset = sv.DetectionDataset.from_yolo(
     images_directory_path=IMAGES_DIRECTORY_PATH,
     annotations_directory_path=ANNOTATIONS_DIRECTORY_PATH,
     data_yaml_path=DATA_YAML_PATH)
-
-len(dataset)
-
-# let's take a look at the first 16 images
-
-SAMPLE_SIZE = 16
-SAMPLE_GRID_SIZE = (4, 4)
-SAMPLE_PLOT_SIZE = (16, 16)
-
-image_names = list(dataset.images.keys())[:SAMPLE_SIZE]
-
-mask_annotator = sv.MaskAnnotator()
-box_annotator = sv.BoxAnnotator()
-
-images = []
-for image_name in image_names:
-    image = dataset.images[image_name]
-    annotations = dataset.annotations[image_name]
-    labels = [
-        dataset.classes[class_id]
-        for class_id
-        in annotations.class_id]
-    annotates_image = mask_annotator.annotate(
-        scene=image.copy(),
-        detections=annotations)
-    annotates_image = box_annotator.annotate(
-        scene=annotates_image,
-        detections=annotations,
-        labels=labels)
-    images.append(annotates_image)
-
-sv.plot_images_grid(
-    images=images,
-    titles=image_names,
-    grid_size=SAMPLE_GRID_SIZE,
-    size=SAMPLE_PLOT_SIZE)
